@@ -6,21 +6,21 @@
 
 <style>
 body {
-  font-family: Arial;
+  font-family: 'Segoe UI', Arial;
   margin: 0;
-  background: #f4f4f4;
+  background: linear-gradient(to right, #f5f7fa, #e4e8ff);
 }
 
 header {
-  background: #6C63FF;
+  background: linear-gradient(135deg, #6C63FF, #4CAF50);
   color: white;
-  padding: 20px;
+  padding: 30px;
   text-align: center;
 }
 
 nav {
-  background: #333;
-  padding: 10px;
+  background: #222;
+  padding: 12px;
   text-align: center;
 }
 
@@ -28,6 +28,7 @@ nav a {
   color: white;
   margin: 10px;
   text-decoration: none;
+  font-weight: bold;
 }
 
 .container {
@@ -38,13 +39,21 @@ nav a {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
+  justify-content: center;
 }
 
 .card {
   background: white;
-  padding: 15px;
-  border-radius: 10px;
+  padding: 20px;
+  border-radius: 15px;
   width: 250px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: scale(1.05);
 }
 
 button {
@@ -52,7 +61,9 @@ button {
   color: white;
   border: none;
   padding: 10px;
+  border-radius: 8px;
   cursor: pointer;
+  margin-top: 10px;
 }
 
 .cart {
@@ -61,15 +72,17 @@ button {
   top: 100px;
   background: white;
   padding: 15px;
-  border-radius: 10px;
+  border-radius: 15px;
   width: 250px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
 footer {
   background: #222;
   color: white;
   text-align: center;
-  padding: 10px;
+  padding: 15px;
+  margin-top: 20px;
 }
 </style>
 
@@ -132,24 +145,32 @@ footer {
 <footer>
   <p>© 2026 Crisgopía</p>
 </footer>
-
 <script>
 let cart = [];
-let total = 0;
 
 function addToCart(name, price) {
   cart.push({name, price});
-  total += price;
+  updateCart();
+}
+
+function removeFromCart(index) {
+  cart.splice(index, 1);
   updateCart();
 }
 
 function updateCart() {
   let list = document.getElementById("cartList");
+  let total = 0;
   list.innerHTML = "";
-  
-  cart.forEach(item => {
+
+  cart.forEach((item, index) => {
+    total += item.price;
+
     let li = document.createElement("li");
-    li.textContent = item.name + " - $" + item.price;
+    li.innerHTML = `
+      ${item.name} - $${item.price} 
+      <button onclick="removeFromCart(${index})">❌</button>
+    `;
     list.appendChild(li);
   });
 
@@ -157,17 +178,14 @@ function updateCart() {
 }
 
 function sendWhatsApp() {
-  let message = "Hola, quiero pedir:%0A";
-  
+  let message = "Hola Crisgopía, quiero pedir:%0A";
+
   cart.forEach(item => {
     message += "- " + item.name + " ($" + item.price + ")%0A";
   });
 
-  message += "Total: $" + total;
+  message += "Total: $" + cart.reduce((sum, item) => sum + item.price, 0);
 
-  window.open("https://wa.me/311836689?text=" + message);
+  window.open("https://wa.me/573XXXXXXXXX?text=" + message);
 }
 </script>
-
-</body>
-</html>
