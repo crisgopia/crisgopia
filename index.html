@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Crisgopía</title>
+
+<style>
+body {
+  font-family: Arial;
+  margin: 0;
+  background: #f4f4f4;
+}
+
+header {
+  background: #6C63FF;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+nav {
+  background: #333;
+  padding: 10px;
+  text-align: center;
+}
+
+nav a {
+  color: white;
+  margin: 10px;
+  text-decoration: none;
+}
+
+.container {
+  padding: 20px;
+}
+
+.products {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.card {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  width: 250px;
+}
+
+button {
+  background: #6C63FF;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.cart {
+  position: fixed;
+  right: 10px;
+  top: 100px;
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  width: 250px;
+}
+
+footer {
+  background: #222;
+  color: white;
+  text-align: center;
+  padding: 10px;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+  <h1>Crisgopía 🎁</h1>
+  <p>Regalos personalizados con emoción</p>
+</header>
+
+<nav>
+  <a href="#productos">Productos</a>
+  <a href="#contacto">Contacto</a>
+</nav>
+
+<div class="container">
+
+<h2>Productos</h2>
+
+<div class="products">
+
+<div class="card">
+  <h3>Caja Cumpleaños 🎂</h3>
+  <p>$30.000</p>
+  <button onclick="addToCart('Caja Cumpleaños',30000)">Agregar</button>
+</div>
+
+<div class="card">
+  <h3>Caja Amor ❤️</h3>
+  <p>$35.000</p>
+  <button onclick="addToCart('Caja Amor',35000)">Agregar</button>
+</div>
+
+<div class="card">
+  <h3>Caja Sorpresa 🎁</h3>
+  <p>$25.000</p>
+  <button onclick="addToCart('Caja Sorpresa',25000)">Agregar</button>
+</div>
+
+</div>
+
+</div>
+
+<!-- CARRITO -->
+<div class="cart">
+  <h3>Carrito 🛒</h3>
+  <ul id="cartList"></ul>
+  <p>Total: $<span id="total">0</span></p>
+  <button onclick="sendWhatsApp()">Pedir por WhatsApp</button>
+</div>
+
+<!-- CONTACTO -->
+<div class="container" id="contacto">
+  <h2>Contacto</h2>
+  <p>Instagram: @crisgopia</p>
+</div>
+
+<footer>
+  <p>© 2026 Crisgopía</p>
+</footer>
+
+<script>
+let cart = [];
+let total = 0;
+
+function addToCart(name, price) {
+  cart.push({name, price});
+  total += price;
+  updateCart();
+}
+
+function updateCart() {
+  let list = document.getElementById("cartList");
+  list.innerHTML = "";
+  
+  cart.forEach(item => {
+    let li = document.createElement("li");
+    li.textContent = item.name + " - $" + item.price;
+    list.appendChild(li);
+  });
+
+  document.getElementById("total").textContent = total;
+}
+
+function sendWhatsApp() {
+  let message = "Hola, quiero pedir:%0A";
+  
+  cart.forEach(item => {
+    message += "- " + item.name + " ($" + item.price + ")%0A";
+  });
+
+  message += "Total: $" + total;
+
+  window.open("https://wa.me/311836689?text=" + message);
+}
+</script>
+
+</body>
+</html>
